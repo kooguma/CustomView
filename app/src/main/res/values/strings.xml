@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CustomView</string>
+    <string name="dial_view_percentage">%s%%</string>
 </resources>

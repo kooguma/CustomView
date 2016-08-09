@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DialView">
+        <attr name="arrowSrc" format="reference"/>
+        <attr name="progressBackgroundWidth" format="dimension"/>
+        <attr name="progressBackgroundColor" format="color"/>
+        <attr name="progressForegroundWidth" format="dimension"/>
+        <attr name="progressBackgroundStartAngle" format="integer"/>
+        <attr name="progressBackgroundSweepAngle" format="integer"/>
+        <attr name="progressForegroundStartAngle" format="integer"/>
+        <attr name="progressForegroundSweepAngle" format="integer"/>
+        <attr name="progressArcPadding" format="dimension"/>
+        <attr name="outermostCircleRadius" format="dimension"/>
+        <attr name="showDial" format="boolean"/>
+        <attr name="isDrawDial" format="boolean"/>
+    </declare-styleable>
+
+</resources>
