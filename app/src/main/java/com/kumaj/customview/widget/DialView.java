@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.TouchDelegate;
 import android.view.View;
 
 import com.kumaj.customview.R;
@@ -163,25 +164,26 @@ public class DialView extends View {
         mPgBgPaint.setStyle(Paint.Style.STROKE);
         mPgBgPaint.setStrokeCap(Paint.Cap.ROUND);
         mProgressBgArc.mPaint = mPgBgPaint;
-        mProgressBgArc.mStarAngle = mProgressBgStartAngle;
-        mProgressBgArc.mSweepAngle = mProgressBgSweepAngle;
-        canvas.drawArc(mOutCircle.getRectF(), mProgressBgArc.mStarAngle, mProgressBgArc.mSweepAngle, false, mProgressBgArc.mPaint);
+        mProgressBgArc.setStartAngle(mProgressBgStartAngle);
+        mProgressBgArc.setSweepAngle(mProgressBgSweepAngle);
+        canvas.drawArc(mOutCircle.getRectF(), mProgressBgArc.mStartAngle, mProgressBgArc.mSweepAngle, false, mProgressBgArc.mPaint);
 
         //draw the foreground arc
         mPgFgPaint.setStrokeWidth(mProgressFgArcWidth);
         mPgFgPaint.setAntiAlias(true);
         mPgFgPaint.setStyle(Paint.Style.STROKE);
         mPgFgPaint.setStrokeCap(Paint.Cap.ROUND);
-        mProgressFgArc.mStarAngle = mProgressFgStartAngle;
-        mProgressFgArc.mSweepAngle = mProgressFgSweepAngle;
+        mProgressFgArc.setStartAngle(mProgressFgStartAngle);
+        mProgressFgArc.setSweepAngle(mProgressFgSweepAngle);
+
         float curDegree;
         float fraction;
         float sweepAngle = (1.0f / sScale * 1.0f) * mProgressFgArc.mSweepAngle;
         for (int i = 0; i < sScale; i++) {
             fraction = ((i + 1) * 1.0f) / (sScale * 1.0f);
-            if (i == 0) curDegree = mProgressFgArc.mStarAngle;
+            if (i == 0) curDegree = mProgressFgArc.mStartAngle;
             else {
-                curDegree = mProgressFgArc.mStarAngle + fraction * mProgressFgArc.mSweepAngle;
+                curDegree = mProgressFgArc.mStartAngle + fraction * mProgressFgArc.mSweepAngle;
             }
             mPgFgPaint.setColor(color[i]);
             canvas.drawArc(mOutCircle.getRectF(), curDegree, sweepAngle, false, mPgFgPaint);
@@ -191,7 +193,7 @@ public class DialView extends View {
         if (isDrawDial) {
             // TODO: 16/7/26 the dial num should be custom
             canvas.save();
-            float startDegree = 90 + mProgressFgArc.mStarAngle;
+            float startDegree = 90 + mProgressFgArc.mStartAngle;
             canvas.rotate(startDegree, mOutCircle.x, mOutCircle.y);
             float startY = mOutCircle.y - mOutCircle.mRadius +
                     mProgressArcPadding + mProgressBgArc.mPaint.getStrokeWidth() / 2 + sDialPadding;
@@ -295,6 +297,10 @@ public class DialView extends View {
         mPosY = event.getY();
 
         if (!ignoreTouch(mPosX, mPosY)) {
+            if (isBeyondProgress(mPosX, mPosY) && mListener != null) {
+                mListener.onBeyondProgress(this);
+                return true;
+            }
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     updateOnTouch(mPosX, mPosY);
@@ -329,7 +335,6 @@ public class DialView extends View {
         float arrowXDegree = -mArrowDegree;
         float radians = (float) Math.toRadians(arrowXDegree);
 
-        Log.e(TAG, " degree = " + mArrowDegree);
         mArrowDegree += 270;
         mArrowX = (float) (mArrowRadius * Math.cos(radians)) + mOutCircle.mRadius;
         mArrowY = (float) (mArrowRadius * -Math.sin(radians)) + mOutCircle.mRadius;
@@ -344,19 +349,51 @@ public class DialView extends View {
         return (float) Math.toDegrees(Math.atan2(y, x));
     }
 
-    private float calculatePercentage(float posX, float posY) {
-        float degree = getTouchDegree(posX, posY);
-        float sweepDegree;
-        if (degree <= 160f && degree >= 90f) {
-            return 1f;
-        } else if (degree < 90f && degree > 20f) {
-            return 0f;
-        } else if (degree <= 20f && degree >= -180f) {
-            sweepDegree = 20f - degree;
-        } else {
-            sweepDegree = 200f + (180f - degree);
+
+    private float formatAngle(float angle) {
+        angle %= 360f;
+        if (angle < -180f) {
+            angle = angle + 360f;
+        } else if (angle > 180f) {
+            angle = -360f + angle;
         }
-        return sweepDegree / 220;
+        return angle;
+    }
+
+    private boolean isBeyondProgress(float posX, float posY) {
+        float needDegree = getAngleFromStart(posX, posY);
+        //sweep angle = 0
+        return needDegree == 0 || needDegree >= Math.abs(mProgressFgArc.mSweepAngle);
+    }
+
+    private float getAngleFromStart(float posX, float posY) {
+        float touchDegree = getTouchDegree(posX, posY);
+        float needDegree; //needDegree > 0 the degree from start
+        if (mProgressFgArc.mSweepAngle > 0) { // clockwise
+            if (touchDegree > mProgressFgArc.mStartAngle) {
+                needDegree = touchDegree - mProgressFgArc.mStartAngle;
+            } else {
+                needDegree = 360f - Math.abs(touchDegree - mProgressFgArc.mStartAngle);
+            }
+        } else if (mProgressFgArc.mSweepAngle < 0) {// anticlockwise
+            if (touchDegree > mProgressFgArc.mStartAngle) {
+                needDegree = 360f - Math.abs(touchDegree - mProgressFgArc.mStartAngle);
+            } else {
+                needDegree = mProgressFgArc.mStartAngle - touchDegree;
+            }
+        } else {
+            return 0f;
+        }
+        return needDegree;
+    }
+
+    private float calculatePercentage(float posX, float posY) {
+        if (isBeyondProgress(posX, posY)) {
+            return -1f;
+        }
+
+        return getAngleFromStart(posX, posY) / Math.abs(mProgressFgArc.mSweepAngle);
+
     }
 
     public float getPercentage() {
@@ -393,41 +430,45 @@ public class DialView extends View {
     }
 
     private class Arc {
-        public int mStarAngle;
-        public int mSweepAngle;
-        public int mRadius;
-        public Paint mPaint;
-        public int x;
-        public int y;
+        float mStartAngle;
+        float mSweepAngle;
+        float mRadius;
+        Paint mPaint;
+        float x;
+        float y;
 
-        public Arc() {
+        Arc() {
         }
 
-        public Arc(int starAngle, int sweepAngle, Paint paint, int x, int y, int radius) {
-            this.mStarAngle = starAngle;
+        Arc(float starAngle, float sweepAngle, Paint paint, float x, float y, int radius) {
+            this.mStartAngle = starAngle;
             this.mPaint = paint;
             this.mRadius = radius;
         }
 
-        public void setSweepAngle(int sweepAngle) {
-            mSweepAngle = sweepAngle;
-            invalidate();
+        void setStartAngle(float angle) {
+            mStartAngle = formatAngle(angle);
         }
+
+        void setSweepAngle(float angle) {
+            this.mSweepAngle = angle;
+        }
+
 
     }
 
     private class Circle extends Arc {
 
-        public Circle() {
+        Circle() {
             super();
         }
 
-        public Circle(Paint paint, int x, int y, int radius) {
+        public Circle(Paint paint, float x, float y, int radius) {
             super(0, 360, paint, x, y, radius);
         }
 
 
-        public RectF getRectF() {
+        RectF getRectF() {
             return new RectF(x - mRadius + mProgressArcPadding,
                     y - mRadius + mProgressArcPadding,
                     x + mRadius - mProgressArcPadding,
@@ -439,6 +480,8 @@ public class DialView extends View {
         void onStartChange(DialView dialView);
 
         void onProgressUpdate(DialView dialView);
+
+        void onBeyondProgress(DialView dialView);
 
         void onStopChange(DialView dialView);
     }

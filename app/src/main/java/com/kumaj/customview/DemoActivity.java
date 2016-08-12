@@ -2,6 +2,7 @@ package com.kumaj.customview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -97,6 +98,11 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
     public void onProgressUpdate(DialView dialView) {
         String percentage =  String.format("%.2f", dialView.getPercentage()*100);
         mTextProgress.setText(getString(R.string.dial_view_percentage,percentage));
+    }
+
+    @Override
+    public void onBeyondProgress(DialView dialView) {
+        mTextProgress.setText("out");
     }
 
     @Override
