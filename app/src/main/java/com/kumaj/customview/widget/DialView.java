@@ -73,6 +73,7 @@ public class DialView extends View {
     private float mArrowX;
     private float mArrowY;
     private float mArrowDegree;
+    private float mArrowRotate;
     private float mArrowRadius;
 
     //dial
@@ -128,7 +129,6 @@ public class DialView extends View {
         mArrowRadius = mOutCircle.mRadius - mProgressArcPadding / 2;
         mArrowX = mOutCircle.x;
         mArrowY = mOutCircle.y - mArrowRadius;
-        mArrowDegree = 180;
     }
 
     private int measureWidthOrHeight(int measureSpec, int type) {
@@ -210,7 +210,7 @@ public class DialView extends View {
 
         canvas.save();
         canvas.translate(mArrowX, mArrowY);
-        canvas.rotate(mArrowDegree);
+        canvas.rotate(mArrowDegree + mArrowRotate);
         mArrow.setBounds(-28, -28, 28, 28); //r t l b
         mArrow.draw(canvas);
         canvas.restore();
@@ -222,6 +222,9 @@ public class DialView extends View {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DialView, defStyle, 0);
             mArrow = a.getDrawable(R.styleable.DialView_arrowSrc);
             if (mArrow == null) mArrow = getResources().getDrawable(R.drawable.ic_arrow);
+
+            mArrowRotate = a.getInteger
+                    (R.styleable.DialView_arrowRotate, 0);
 
             mProgressArcPadding = a.getDimensionPixelSize
                     (R.styleable.DialView_progressArcPadding, sProgressArcPadding);
@@ -335,7 +338,8 @@ public class DialView extends View {
         float arrowXDegree = -mArrowDegree;
         float radians = (float) Math.toRadians(arrowXDegree);
 
-        mArrowDegree += 270;
+        mArrowDegree += 90;
+
         mArrowX = (float) (mArrowRadius * Math.cos(radians)) + mOutCircle.mRadius;
         mArrowY = (float) (mArrowRadius * -Math.sin(radians)) + mOutCircle.mRadius;
 
