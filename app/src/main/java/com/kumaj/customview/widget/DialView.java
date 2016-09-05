@@ -3,19 +3,17 @@ package com.kumaj.customview.widget;
 import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.TouchDelegate;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.kumaj.customview.R;
 
@@ -295,11 +293,16 @@ public class DialView extends View {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         mPosX = event.getX();
         mPosY = event.getY();
-
         if (!ignoreTouch(mPosX, mPosY)) {
+            getParent().requestDisallowInterceptTouchEvent(true);
             if (isBeyondProgress(mPosX, mPosY) && mListener != null) {
                 mListener.onBeyondProgress(this);
                 return true;
@@ -367,12 +370,17 @@ public class DialView extends View {
     private boolean isBeyondProgress(float posX, float posY) {
         float needDegree = getAngleFromStart(posX, posY);
         //sweep angle = 0
-        return needDegree == 0 || needDegree >= Math.abs(mProgressFgArc.mSweepAngle);
+        return  needDegree > Math.abs(mProgressFgArc.mSweepAngle);
     }
 
     private float getAngleFromStart(float posX, float posY) {
         float touchDegree = getTouchDegree(posX, posY);
         float needDegree; //needDegree > 0 the degree from start
+        //handle touchDegree = 0f to display 0%
+        if(touchDegree == 0f){
+            return 0f;
+        }
+
         if (mProgressFgArc.mSweepAngle > 0) { // clockwise
             if (touchDegree > mProgressFgArc.mStartAngle) {
                 needDegree = touchDegree - mProgressFgArc.mStartAngle;
@@ -388,6 +396,7 @@ public class DialView extends View {
         } else {
             return 0f;
         }
+
         return needDegree;
     }
 
