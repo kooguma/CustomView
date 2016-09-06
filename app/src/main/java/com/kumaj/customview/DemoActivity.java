@@ -102,6 +102,7 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
     @Override
     public void onProgressUpdate(DialView dialView) {
         String percentage =  String.format("%.2f", dialView.getPercentage()*100);
+        mTextProgress.setTextColor(dialView.getColor());
         mTextProgress.setText(getString(R.string.dial_view_percentage,percentage));
     }
 

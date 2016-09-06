@@ -59,8 +59,6 @@ public class DialView extends View {
     private int mProgressBgSweepAngle;
 
     private Arc mProgressFgArc;
-    private Map<Object, Integer> mColorMap;
-    private ArgbHelper mArgbHelper;
     private int[] colors;
 
     //paint
@@ -276,7 +274,7 @@ public class DialView extends View {
         mProgressFgArc = new Arc();
 
         //initial colors
-        mArgbHelper = ArgbHelper.getInstance();
+        ArgbHelper mArgbHelper = ArgbHelper.getInstance();
         mArgbHelper.setInterpolator(new DecelerateInterpolator());
         colors = mArgbHelper.getValues(sScale, Color.RED, Color.BLUE);
 
@@ -413,6 +411,18 @@ public class DialView extends View {
     public float getPercentage() {
         mPercentage = calculatePercentage(mPosX, mPosY);
         return mPercentage;
+    }
+
+    public int getColor() {
+        int index = Math.round(getPercentage() * sScale);
+        if (index > sScale - 1) {
+            index = sScale - 1;
+        }
+        return colors[index];
+    }
+
+    public int[] getColors(){
+        return colors;
     }
 
     public void setProgressArcPadding(int progressArcPadding) {
