@@ -1,11 +1,16 @@
 package com.kumaj.customview;
 
+import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.kumaj.customview.evaluator.ArgbHelper;
 import com.kumaj.customview.widget.DialView;
 import com.kumaj.customview.widget.SimpleOnSeekBarChangeListener;
 

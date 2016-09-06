@@ -13,9 +13,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ScrollView;
 
 import com.kumaj.customview.R;
+import com.kumaj.customview.evaluator.ArgbHelper;
 
 import java.util.Map;
 
@@ -56,8 +60,8 @@ public class DialView extends View {
 
     private Arc mProgressFgArc;
     private Map<Object, Integer> mColorMap;
-    private ArgbEvaluator mArgbEvaluator;
-    private int[] color = new int[sScale];
+    private ArgbHelper mArgbHelper;
+    private int[] colors;
 
     //paint
     private Paint mPgBgPaint;
@@ -183,7 +187,7 @@ public class DialView extends View {
             else {
                 curDegree = mProgressFgArc.mStartAngle + fraction * mProgressFgArc.mSweepAngle;
             }
-            mPgFgPaint.setColor(color[i]);
+            mPgFgPaint.setColor(colors[i]);
             canvas.drawArc(mOutCircle.getRectF(), curDegree, sweepAngle, false, mPgFgPaint);
         }
 
@@ -272,12 +276,9 @@ public class DialView extends View {
         mProgressFgArc = new Arc();
 
         //initial colors
-        mArgbEvaluator = new ArgbEvaluator();
-
-        for (int i = 0; i < sScale; i++) {
-            float fraction = (i * 1.0f / sScale * 1.0f);
-            color[i] = (int) mArgbEvaluator.evaluate(fraction, Color.RED, Color.BLUE);
-        }
+        mArgbHelper = ArgbHelper.getInstance();
+        mArgbHelper.setInterpolator(new DecelerateInterpolator());
+        colors = mArgbHelper.getValues(sScale, Color.RED, Color.BLUE);
 
         //
         mDialPaint = new Paint();
@@ -370,14 +371,14 @@ public class DialView extends View {
     private boolean isBeyondProgress(float posX, float posY) {
         float needDegree = getAngleFromStart(posX, posY);
         //sweep angle = 0
-        return  needDegree > Math.abs(mProgressFgArc.mSweepAngle);
+        return needDegree > Math.abs(mProgressFgArc.mSweepAngle);
     }
 
     private float getAngleFromStart(float posX, float posY) {
         float touchDegree = getTouchDegree(posX, posY);
         float needDegree; //needDegree > 0 the degree from start
         //handle touchDegree = 0f to display 0%
-        if(touchDegree == 0f){
+        if (touchDegree == 0f) {
             return 0f;
         }
 
