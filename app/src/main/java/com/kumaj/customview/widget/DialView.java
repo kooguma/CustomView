@@ -276,7 +276,7 @@ public class DialView extends View {
         //initial colors
         ArgbHelper mArgbHelper = ArgbHelper.getInstance();
         mArgbHelper.setInterpolator(new DecelerateInterpolator());
-        colors = mArgbHelper.getValues(sScale, Color.RED, Color.BLUE);
+        colors = mArgbHelper.getValues(sScale, Color.RED,Color.YELLOW,Color.BLUE,Color.GREEN);
 
         //
         mDialPaint = new Paint();
