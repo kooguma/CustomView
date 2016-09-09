@@ -6,6 +6,7 @@
         <attr name="progressBackgroundWidth" format="dimension"/>
         <attr name="progressBackgroundColor" format="color"/>
         <attr name="progressForegroundWidth" format="dimension"/>
+        <attr name="progressForegroundColor" format="string"/>
         <attr name="progressBackgroundStartAngle" format="integer"/>
         <attr name="progressBackgroundSweepAngle" format="integer"/>
         <attr name="progressForegroundStartAngle" format="integer"/>

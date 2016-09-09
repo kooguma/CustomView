@@ -39,11 +39,13 @@ public class DialView extends View {
 
     private static final int sDialPadding = 24;
     private static final int sDialLength = 32;
-    private static final int sScale = 100;
+    private static final int sScale = 500;
     private static final int sMinDiameter = 600;
 
     private static final int MEASURE_WIDTH = 0;
     private static final int MEASURE_HEIGHT = 1;
+
+    private static final int FOREGROUND_DEFAULT_COLOR = Color.RED;
 
     private Circle mOutCircle;
     private int mOutermostCircleRadius;
@@ -52,6 +54,7 @@ public class DialView extends View {
     private int mProgressArcPadding;
     private int mProgressBgArcWidth;
     private int mProgressBgArcColor;
+    private int mProgressFgArcColor;
     private int mProgressFgArcWidth;
     private int mProgressFgStartAngle;
     private int mProgressFgSweepAngle;
@@ -276,7 +279,7 @@ public class DialView extends View {
         //initial colors
         ArgbHelper mArgbHelper = ArgbHelper.getInstance();
         mArgbHelper.setInterpolator(new DecelerateInterpolator());
-        colors = mArgbHelper.getValues(sScale, Color.RED,Color.YELLOW,Color.BLUE,Color.GREEN);
+        colors = mArgbHelper.getValues(sScale,FOREGROUND_DEFAULT_COLOR);
 
         //
         mDialPaint = new Paint();
@@ -288,6 +291,10 @@ public class DialView extends View {
         //
         mDialNums = 30;
 
+
+    }
+
+    private void initColors(){
 
     }
 

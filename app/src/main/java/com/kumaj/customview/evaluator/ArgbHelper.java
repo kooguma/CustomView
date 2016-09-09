@@ -3,6 +3,8 @@ package com.kumaj.customview.evaluator;
 import android.animation.ArgbEvaluator;
 import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
+import android.graphics.Color;
+import android.sax.RootElement;
 import android.view.animation.LinearInterpolator;
 
 public class ArgbHelper {
@@ -64,6 +66,10 @@ public class ArgbHelper {
 
 
     public int[] getValues(int scale, Object... values) {
+        if(values.length == 1){
+            return new int[]{Color.RED};
+        }
+
         int section = scale / (values.length - 1);
         boolean isInt = (scale % (values.length - 1)) == 0;
         int[][] colors = new int[values.length - 1][section];
