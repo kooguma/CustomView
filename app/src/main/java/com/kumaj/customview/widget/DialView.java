@@ -39,13 +39,13 @@ public class DialView extends View {
 
     private static final int sDialPadding = 24;
     private static final int sDialLength = 32;
-    private static final int sScale = 500;
+    private static final int sScale = 100;
     private static final int sMinDiameter = 600;
 
     private static final int MEASURE_WIDTH = 0;
     private static final int MEASURE_HEIGHT = 1;
 
-    private static final int FOREGROUND_DEFAULT_COLOR = Color.RED;
+    private static final int sForegroundDefaultColor = Color.RED;
 
     private Circle mOutCircle;
     private int mOutermostCircleRadius;
@@ -90,6 +90,7 @@ public class DialView extends View {
 
     private OnDialViewChangeListener mListener;
 
+
     public void setDialViewChangeListener(OnDialViewChangeListener l) {
         mListener = l;
     }
@@ -100,9 +101,11 @@ public class DialView extends View {
 
     }
 
+
     public DialView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
+
 
     public DialView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -113,8 +116,9 @@ public class DialView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(measureWidthOrHeight(widthMeasureSpec, MEASURE_WIDTH)
-                , measureWidthOrHeight(heightMeasureSpec, MEASURE_HEIGHT));
+            , measureWidthOrHeight(heightMeasureSpec, MEASURE_HEIGHT));
     }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -134,12 +138,15 @@ public class DialView extends View {
         mArrowY = mOutCircle.y - mArrowRadius;
     }
 
+
     private int measureWidthOrHeight(int measureSpec, int type) {
         int result;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
 
-        int padding = type == MEASURE_WIDTH ? getPaddingLeft() + getPaddingRight() : getPaddingBottom() + getPaddingTop();
+        int padding = type == MEASURE_WIDTH
+                      ? getPaddingLeft() + getPaddingRight()
+                      : getPaddingBottom() + getPaddingTop();
 
         if (specMode == MeasureSpec.EXACTLY) {
             result = Math.max(specSize, sMinDiameter);
@@ -148,6 +155,7 @@ public class DialView extends View {
         }
         return result;
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -169,7 +177,8 @@ public class DialView extends View {
         mProgressBgArc.mPaint = mPgBgPaint;
         mProgressBgArc.setStartAngle(mProgressBgStartAngle);
         mProgressBgArc.setSweepAngle(mProgressBgSweepAngle);
-        canvas.drawArc(mOutCircle.getRectF(), mProgressBgArc.mStartAngle, mProgressBgArc.mSweepAngle, false, mProgressBgArc.mPaint);
+        canvas.drawArc(mOutCircle.getRectF(), mProgressBgArc.mStartAngle,
+            mProgressBgArc.mSweepAngle, false, mProgressBgArc.mPaint);
 
         //draw the foreground arc
         mPgFgPaint.setStrokeWidth(mProgressFgArcWidth);
@@ -181,11 +190,12 @@ public class DialView extends View {
 
         float curDegree;
         float fraction;
-        float sweepAngle = (1.0f / sScale * 1.0f) * mProgressFgArc.mSweepAngle;
-        for (int i = 0; i < sScale; i++) {
-            fraction = ((i + 1) * 1.0f) / (sScale * 1.0f);
-            if (i == 0) curDegree = mProgressFgArc.mStartAngle;
-            else {
+        float sweepAngle = (1.0f / colors.length * 1.0f) * mProgressFgArc.mSweepAngle;
+        for (int i = 0; i < colors.length; i++) {
+            fraction = ((i + 1) * 1.0f) / (colors.length * 1.0f);
+            if (i == 0) {
+                curDegree = mProgressFgArc.mStartAngle;
+            } else {
                 curDegree = mProgressFgArc.mStartAngle + fraction * mProgressFgArc.mSweepAngle;
             }
             mPgFgPaint.setColor(colors[i]);
@@ -199,7 +209,7 @@ public class DialView extends View {
             float startDegree = 90 + mProgressFgArc.mStartAngle;
             canvas.rotate(startDegree, mOutCircle.x, mOutCircle.y);
             float startY = mOutCircle.y - mOutCircle.mRadius +
-                    mProgressArcPadding + mProgressBgArc.mPaint.getStrokeWidth() / 2 + sDialPadding;
+                mProgressArcPadding + mProgressBgArc.mPaint.getStrokeWidth() / 2 + sDialPadding;
             float stopY = startY + sDialLength;
             float rotateDegree = (1.0f * mProgressFgArc.mSweepAngle) / (1.0f * mDialNums);
             for (int i = 0; i < mDialNums + 1; i++) {
@@ -219,42 +229,47 @@ public class DialView extends View {
         canvas.restore();
     }
 
+
     private void init(Context context, AttributeSet attrs, int defStyle) {
 
         if (attrs != null) {
-            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DialView, defStyle, 0);
+            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DialView,
+                defStyle, 0);
             mArrow = a.getDrawable(R.styleable.DialView_arrowSrc);
             if (mArrow == null) mArrow = getResources().getDrawable(R.drawable.ic_arrow);
 
             mArrowRotate = a.getInteger
-                    (R.styleable.DialView_arrowRotate, 0);
+                (R.styleable.DialView_arrowRotate, 0);
 
             mProgressArcPadding = a.getDimensionPixelSize
-                    (R.styleable.DialView_progressArcPadding, sProgressArcPadding);
+                (R.styleable.DialView_progressArcPadding, sProgressArcPadding);
 
             mProgressBgArcWidth = a.getDimensionPixelSize
-                    (R.styleable.DialView_progressBackgroundWidth, sProgressBgArcWidth);
+                (R.styleable.DialView_progressBackgroundWidth, sProgressBgArcWidth);
 
             mProgressBgArcColor = a.getColor
-                    (R.styleable.DialView_progressBackgroundColor, getResources().getColor(R.color.color_E7E7E7));
+                (R.styleable.DialView_progressBackgroundColor, getResources().getColor(R.color.color_E7E7E7));
+
+            mProgressFgArcColor = a.getInteger
+                (R.styleable.DialView_progressForegroundColor,sForegroundDefaultColor);
 
             mProgressFgArcWidth = a.getDimensionPixelOffset
-                    (R.styleable.DialView_progressForegroundWidth, sProgressFgArcWidth);
+                (R.styleable.DialView_progressForegroundWidth, sProgressFgArcWidth);
 
             mProgressBgStartAngle = a.getInteger
-                    (R.styleable.DialView_progressBackgroundStartAngle, sProgressBgStartAngle);
+                (R.styleable.DialView_progressBackgroundStartAngle, sProgressBgStartAngle);
 
             mProgressBgSweepAngle = a.getInteger
-                    (R.styleable.DialView_progressBackgroundSweepAngle, sProgressBgSweepAngle);
+                (R.styleable.DialView_progressBackgroundSweepAngle, sProgressBgSweepAngle);
 
             mProgressFgStartAngle = a.getInteger
-                    (R.styleable.DialView_progressForegroundStartAngle, sProgressFgStartAngle);
+                (R.styleable.DialView_progressForegroundStartAngle, sProgressFgStartAngle);
 
             mProgressFgSweepAngle = a.getInteger
-                    (R.styleable.DialView_progressForegroundSweepAngle, sProgressFgSweepAngle);
+                (R.styleable.DialView_progressForegroundSweepAngle, sProgressFgSweepAngle);
 
             mOutermostCircleRadius = a.getInteger
-                    (R.styleable.DialView_outermostCircleRadius, sMinDiameter / 2);
+                (R.styleable.DialView_outermostCircleRadius, sMinDiameter / 2);
 
             isDrawDial = a.getBoolean(R.styleable.DialView_isDrawDial, true);
             a.recycle();
@@ -277,9 +292,10 @@ public class DialView extends View {
         mProgressFgArc = new Arc();
 
         //initial colors
-        ArgbHelper mArgbHelper = ArgbHelper.getInstance();
-        mArgbHelper.setInterpolator(new DecelerateInterpolator());
-        colors = mArgbHelper.getValues(sScale,FOREGROUND_DEFAULT_COLOR);
+        colors = new int[]{mProgressFgArcColor};
+        // ArgbHelper mArgbHelper = ArgbHelper.getInstance();
+        // mArgbHelper.setInterpolator(new DecelerateInterpolator());
+        // colors = mArgbHelper.getValues(sScale, Color.RED, Color.YELLOW, Color.GREEN);
 
         //
         mDialPaint = new Paint();
@@ -291,17 +307,14 @@ public class DialView extends View {
         //
         mDialNums = 30;
 
-
     }
 
-    private void initColors(){
-
-    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         return super.dispatchTouchEvent(event);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -334,6 +347,7 @@ public class DialView extends View {
         return false;
     }
 
+
     private boolean ignoreTouch(float posX, float posY) {
         //ignore the  touch event inside the progress background arc
         float dx = posX - mOutCircle.x;
@@ -341,6 +355,7 @@ public class DialView extends View {
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
         return distance < mOutCircle.mRadius - mProgressArcPadding;
     }
+
 
     private void updateOnTouch(float posX, float posY) {
         mArrowDegree = getTouchDegree(posX, posY);
@@ -354,6 +369,7 @@ public class DialView extends View {
 
         invalidate();
     }
+
 
     // 0->-180 180->0
     private float getTouchDegree(float posX, float posY) {
@@ -373,11 +389,13 @@ public class DialView extends View {
         return angle;
     }
 
+
     private boolean isBeyondProgress(float posX, float posY) {
         float needDegree = getAngleFromStart(posX, posY);
         //sweep angle = 0
         return needDegree > Math.abs(mProgressFgArc.mSweepAngle);
     }
+
 
     private float getAngleFromStart(float posX, float posY) {
         float touchDegree = getTouchDegree(posX, posY);
@@ -406,6 +424,7 @@ public class DialView extends View {
         return needDegree;
     }
 
+
     private float calculatePercentage(float posX, float posY) {
         if (isBeyondProgress(posX, posY)) {
             return -1f;
@@ -415,50 +434,61 @@ public class DialView extends View {
 
     }
 
+
     public float getPercentage() {
         mPercentage = calculatePercentage(mPosX, mPosY);
         return mPercentage;
     }
 
+
     public int getColor() {
-        int index = Math.round(getPercentage() * sScale);
-        if (index > sScale - 1) {
-            index = sScale - 1;
+        int index = Math.round(getPercentage() * colors.length);
+        if (index > colors.length - 1) {
+            index = colors.length - 1;
         }
         return colors[index];
     }
 
-    public int[] getColors(){
+
+    public int[] getColors() {
         return colors;
     }
+
 
     public void setProgressArcPadding(int progressArcPadding) {
         this.mProgressArcPadding = progressArcPadding;
     }
 
+
     public void setProgressBgArcWidth(int progressBgArcWidth) {
         this.mProgressBgArcWidth = progressBgArcWidth;
     }
+
 
     public void setProgressFgArcWidth(int progressFgArcWidth) {
         this.mProgressFgArcWidth = progressFgArcWidth;
     }
 
+
     public void setProgressBgStartAngle(int progressBgStartAngle) {
         this.mProgressBgStartAngle = progressBgStartAngle;
     }
+
 
     public void setProgressBgSweepAngle(int progressBgSweepAngle) {
         this.mProgressBgSweepAngle = progressBgSweepAngle;
     }
 
+
     public void setProgressFgStartAngle(int progressFgStartAngle) {
         this.mProgressFgStartAngle = progressFgStartAngle;
     }
 
+
     public void setProgressFgSweepAngle(int progressFgSweepAngle) {
         this.mProgressFgSweepAngle = progressFgSweepAngle;
     }
+
 
     private class Arc {
         float mStartAngle;
@@ -468,8 +498,10 @@ public class DialView extends View {
         float x;
         float y;
 
+
         Arc() {
         }
+
 
         Arc(float starAngle, float sweepAngle, Paint paint, float x, float y, int radius) {
             this.mStartAngle = starAngle;
@@ -477,22 +509,25 @@ public class DialView extends View {
             this.mRadius = radius;
         }
 
+
         void setStartAngle(float angle) {
             mStartAngle = formatAngle(angle);
         }
+
 
         void setSweepAngle(float angle) {
             this.mSweepAngle = angle;
         }
 
-
     }
+
 
     private class Circle extends Arc {
 
         Circle() {
             super();
         }
+
 
         public Circle(Paint paint, float x, float y, int radius) {
             super(0, 360, paint, x, y, radius);
@@ -501,11 +536,12 @@ public class DialView extends View {
 
         RectF getRectF() {
             return new RectF(x - mRadius + mProgressArcPadding,
-                    y - mRadius + mProgressArcPadding,
-                    x + mRadius - mProgressArcPadding,
-                    y + mRadius - mProgressArcPadding);
+                y - mRadius + mProgressArcPadding,
+                x + mRadius - mProgressArcPadding,
+                y + mRadius - mProgressArcPadding);
         }
     }
+
 
     public interface OnDialViewChangeListener {
         void onStartChange(DialView dialView);
