@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="DialView">
+    <declare-styleable name="ColorfulCircleIndicator">
         <attr name="arrowSrc" format="reference"/>
         <attr name="arrowRotate" format="integer"/>
         <attr name="progressBackgroundWidth" format="dimension"/>

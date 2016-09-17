@@ -1,6 +1,6 @@
 package com.kumaj.customview.widget;
 
-import android.animation.ArgbEvaluator;
+import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -9,21 +9,13 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.ScrollView;
 
 import com.kumaj.customview.R;
 import com.kumaj.customview.evaluator.ArgbHelper;
 
-import java.util.Map;
-
-public class DialView extends View {
+public class ColorfulCircleIndicator extends View {
 
     private static final String TAG = "DialView";
 
@@ -37,9 +29,9 @@ public class DialView extends View {
     private static final int sProgressFgStartAngle = 20;
     private static final int sProgressFgSweepAngle = -220;
 
-    private static final int sDialPadding = 24;
-    private static final int sDialLength = 32;
-    private static final int sScale = 100;
+    //the bigger the value is, the more natural transition of the colors will be.
+    //the sScale should be less than 300,or it would perform bad
+    private static final int sScale = 400;
     private static final int sMinDiameter = 600;
 
     private static final int MEASURE_WIDTH = 0;
@@ -69,8 +61,6 @@ public class DialView extends View {
     private Paint mPgFgPaint;
     private Paint mDialPaint;
 
-    private int mDialNums;
-
     //arrow
     private Drawable mArrow;
     private float mArrowX;
@@ -93,18 +83,18 @@ public class DialView extends View {
     }
 
 
-    public DialView(Context context) {
+    public ColorfulCircleIndicator(Context context) {
         this(context, null);
 
     }
 
 
-    public DialView(Context context, AttributeSet attrs) {
+    public ColorfulCircleIndicator(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
 
-    public DialView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ColorfulCircleIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -159,7 +149,6 @@ public class DialView extends View {
         super.onDraw(canvas);
 
         //draw the outermost circle
-        // TODO: 16/7/22  Circle's radius should be custom ?
         canvas.drawCircle(mOutCircle.x, mOutCircle.y, mOutCircle.mRadius, mOutCircle.mPaint);
 
         //draw the circle point for test
@@ -200,7 +189,6 @@ public class DialView extends View {
         }
 
         //draw arrow
-
         canvas.save();
         canvas.translate(mArrowX, mArrowY);
         canvas.rotate(mArrowDegree + mArrowRotate);
@@ -213,43 +201,43 @@ public class DialView extends View {
     private void init(Context context, AttributeSet attrs, int defStyle) {
 
         if (attrs != null) {
-            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DialView,
+            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorfulCircleIndicator,
                 defStyle, 0);
-            mArrow = a.getDrawable(R.styleable.DialView_arrowSrc);
+            mArrow = a.getDrawable(R.styleable.ColorfulCircleIndicator_arrowSrc);
             if (mArrow == null) mArrow = getResources().getDrawable(R.drawable.ic_arrow);
 
             mArrowRotate = a.getInteger
-                (R.styleable.DialView_arrowRotate, 0);
+                (R.styleable.ColorfulCircleIndicator_arrowRotate, 0);
 
             mProgressArcPadding = a.getDimensionPixelSize
-                (R.styleable.DialView_progressArcPadding, sProgressArcPadding);
+                (R.styleable.ColorfulCircleIndicator_progressArcPadding, sProgressArcPadding);
 
             mProgressBgArcWidth = a.getDimensionPixelSize
-                (R.styleable.DialView_progressBackgroundWidth, sProgressBgArcWidth);
+                (R.styleable.ColorfulCircleIndicator_progressBackgroundWidth, sProgressBgArcWidth);
 
             mProgressBgArcColor = a.getColor
-                (R.styleable.DialView_progressBackgroundColor, getResources().getColor(R.color.color_E7E7E7));
+                (R.styleable.ColorfulCircleIndicator_progressBackgroundColor, getResources().getColor(R.color.color_E7E7E7));
 
             mProgressFgArcColor = a.getInteger
-                (R.styleable.DialView_progressForegroundColor,sForegroundDefaultColor);
+                (R.styleable.ColorfulCircleIndicator_progressForegroundColor,sForegroundDefaultColor);
 
             mProgressFgArcWidth = a.getDimensionPixelOffset
-                (R.styleable.DialView_progressForegroundWidth, sProgressFgArcWidth);
+                (R.styleable.ColorfulCircleIndicator_progressForegroundWidth, sProgressFgArcWidth);
 
             mProgressBgStartAngle = a.getInteger
-                (R.styleable.DialView_progressBackgroundStartAngle, sProgressBgStartAngle);
+                (R.styleable.ColorfulCircleIndicator_progressBackgroundStartAngle, sProgressBgStartAngle);
 
             mProgressBgSweepAngle = a.getInteger
-                (R.styleable.DialView_progressBackgroundSweepAngle, sProgressBgSweepAngle);
+                (R.styleable.ColorfulCircleIndicator_progressBackgroundSweepAngle, sProgressBgSweepAngle);
 
             mProgressFgStartAngle = a.getInteger
-                (R.styleable.DialView_progressForegroundStartAngle, sProgressFgStartAngle);
+                (R.styleable.ColorfulCircleIndicator_progressForegroundStartAngle, sProgressFgStartAngle);
 
             mProgressFgSweepAngle = a.getInteger
-                (R.styleable.DialView_progressForegroundSweepAngle, sProgressFgSweepAngle);
+                (R.styleable.ColorfulCircleIndicator_progressForegroundSweepAngle, sProgressFgSweepAngle);
 
             mOutermostCircleRadius = a.getInteger
-                (R.styleable.DialView_outermostCircleRadius, sMinDiameter / 2);
+                (R.styleable.ColorfulCircleIndicator_outermostCircleRadius, sMinDiameter / 2);
 
             a.recycle();
         }
@@ -272,20 +260,13 @@ public class DialView extends View {
 
         //initial colors
         colors = new int[]{mProgressFgArcColor};
-        // ArgbHelper mArgbHelper = ArgbHelper.getInstance();
-        // mArgbHelper.setInterpolator(new DecelerateInterpolator());
-        // colors = mArgbHelper.getValues(sScale, Color.RED, Color.YELLOW, Color.GREEN);
 
-        //
         mDialPaint = new Paint();
         mDialPaint.setColor(Color.GRAY);
         mDialPaint.setStrokeWidth(3);
         mPgFgPaint.setAntiAlias(true);
         mPgFgPaint.setDither(true);
         mDialPaint.setStyle(Paint.Style.FILL);
-        //
-        mDialNums = 30;
-
     }
 
 
@@ -433,6 +414,15 @@ public class DialView extends View {
         return colors;
     }
 
+    public void setColors(int color,TimeInterpolator interpolator){
+
+    }
+
+    public void setColors(Object... values){
+        ArgbHelper helper = ArgbHelper.getInstance();
+        colors = helper.getValues(sScale,values);
+        invalidate();
+    }
 
     public void setProgressArcPadding(int progressArcPadding) {
         this.mProgressArcPadding = progressArcPadding;
@@ -523,12 +513,12 @@ public class DialView extends View {
 
 
     public interface OnDialViewChangeListener {
-        void onStartChange(DialView dialView);
+        void onStartChange(ColorfulCircleIndicator colorfulCircleIndicator);
 
-        void onProgressUpdate(DialView dialView);
+        void onProgressUpdate(ColorfulCircleIndicator colorfulCircleIndicator);
 
-        void onBeyondProgress(DialView dialView);
+        void onBeyondProgress(ColorfulCircleIndicator colorfulCircleIndicator);
 
-        void onStopChange(DialView dialView);
+        void onStopChange(ColorfulCircleIndicator colorfulCircleIndicator);
     }
 }

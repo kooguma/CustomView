@@ -1,40 +1,35 @@
 package com.kumaj.customview;
 
-import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kumaj.customview.evaluator.ArgbHelper;
-import com.kumaj.customview.widget.DialView;
+import com.kumaj.customview.widget.ColorfulCircleIndicator;
 import com.kumaj.customview.widget.SimpleOnSeekBarChangeListener;
 
-public class DemoActivity extends AppCompatActivity implements DialView.OnDialViewChangeListener{
+public class DemoActivity extends AppCompatActivity implements ColorfulCircleIndicator.OnDialViewChangeListener{
 
     private static final String TAG = "DemoActivity";
 
     private TextView mTextProgress;
-    private DialView mDialView;
+    private ColorfulCircleIndicator mColorfulCircleIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
         mTextProgress = (TextView) findViewById(R.id.text_progress);
-        mDialView = (DialView) findViewById(R.id.dial_view);
-        mDialView.setDialViewChangeListener(this);
-
+        mColorfulCircleIndicator = (ColorfulCircleIndicator) findViewById(R.id.dial_view);
+        mColorfulCircleIndicator.setDialViewChangeListener(this);
+        mColorfulCircleIndicator.setColors(Color.RED,Color.YELLOW,Color.BLUE,Color.GREEN);
         SeekBar progressArcPaddingArc = (SeekBar) findViewById(R.id.progressArcPadding);
         progressArcPaddingArc.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             protected void onSimpleProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDialView.setProgressArcPadding(progress);
-                mDialView.invalidate();
+                mColorfulCircleIndicator.setProgressArcPadding(progress);
+                mColorfulCircleIndicator.invalidate();
             }
         });
 
@@ -42,8 +37,8 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
         progressBackgroundArcWidth.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             protected void onSimpleProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDialView.setProgressBgArcWidth(progress);
-                mDialView.invalidate();
+                mColorfulCircleIndicator.setProgressBgArcWidth(progress);
+                mColorfulCircleIndicator.invalidate();
             }
         });
 
@@ -51,8 +46,8 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
         progressForegroundArcWidth.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             protected void onSimpleProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDialView.setProgressFgArcWidth(progress);
-                mDialView.invalidate();
+                mColorfulCircleIndicator.setProgressFgArcWidth(progress);
+                mColorfulCircleIndicator.invalidate();
             }
         });
         
@@ -60,8 +55,8 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
         pgBgArcStartAngel.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             protected void onSimpleProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDialView.setProgressBgStartAngle(progress);
-                mDialView.invalidate();
+                mColorfulCircleIndicator.setProgressBgStartAngle(progress);
+                mColorfulCircleIndicator.invalidate();
             }
         });
 
@@ -69,8 +64,8 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
         pgBgArcSweepAngel.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             protected void onSimpleProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDialView.setProgressBgSweepAngle(progress);
-                mDialView.invalidate();
+                mColorfulCircleIndicator.setProgressBgSweepAngle(progress);
+                mColorfulCircleIndicator.invalidate();
             }
         });
 
@@ -78,8 +73,8 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
         pgFgArcStartAngel.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             protected void onSimpleProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDialView.setProgressFgStartAngle(progress);
-                mDialView.invalidate();
+                mColorfulCircleIndicator.setProgressFgStartAngle(progress);
+                mColorfulCircleIndicator.invalidate();
             }
         });
 
@@ -87,32 +82,32 @@ public class DemoActivity extends AppCompatActivity implements DialView.OnDialVi
         pgFgArcSweepAngel.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             protected void onSimpleProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDialView.setProgressFgSweepAngle(progress);
-                mDialView.invalidate();
+                mColorfulCircleIndicator.setProgressFgSweepAngle(progress);
+                mColorfulCircleIndicator.invalidate();
             }
         });
 
     }
 
     @Override
-    public void onStartChange(DialView dialView) {
+    public void onStartChange(ColorfulCircleIndicator colorfulCircleIndicator) {
 
     }
 
     @Override
-    public void onProgressUpdate(DialView dialView) {
-        String percentage =  String.format("%.2f", dialView.getPercentage()*100);
-        mTextProgress.setTextColor(dialView.getColor());
+    public void onProgressUpdate(ColorfulCircleIndicator colorfulCircleIndicator) {
+        String percentage =  String.format("%.2f", colorfulCircleIndicator.getPercentage()*100);
+        mTextProgress.setTextColor(colorfulCircleIndicator.getColor());
         mTextProgress.setText(getString(R.string.dial_view_percentage,percentage));
     }
 
     @Override
-    public void onBeyondProgress(DialView dialView) {
+    public void onBeyondProgress(ColorfulCircleIndicator colorfulCircleIndicator) {
         mTextProgress.setText("out");
     }
 
     @Override
-    public void onStopChange(DialView dialView) {
+    public void onStopChange(ColorfulCircleIndicator colorfulCircleIndicator) {
 
     }
 }
