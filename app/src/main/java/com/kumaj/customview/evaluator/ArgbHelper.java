@@ -4,70 +4,41 @@ import android.animation.ArgbEvaluator;
 import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.graphics.Color;
-import android.sax.RootElement;
 import android.view.animation.LinearInterpolator;
+import com.kumaj.customview.widget.ColorfulCircleIndicator;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ArgbHelper {
+public final class ArgbHelper {
 
     private static final String TAG = "ArgbHelper";
-    private static final ArgbHelper instance = new ArgbHelper();
-    private TimeInterpolator mInterpolator;
-    private TypeEvaluator mEvaluator;
+    private static final TypeEvaluator EVALUATOR = new ArgbEvaluator();
 
-
-    private ArgbHelper() {
-        mInterpolator = new LinearInterpolator();
-        mEvaluator = new ArgbEvaluator();
-    }
-
-
-    public static ArgbHelper getInstance() {
-        return instance;
-    }
-
-
-    public ArgbHelper setInterpolator(TimeInterpolator value) {
-        mInterpolator = value;
-        return instance;
-    }
-
-
-    public ArgbHelper setEvaluator(TypeEvaluator value) {
-        mEvaluator = value;
-        return instance;
-    }
-
-
-    public TimeInterpolator getInterpolator() {
-        return mInterpolator;
-    }
-
-
-    public TypeEvaluator getTypeEvaluator() {
-        return mEvaluator;
-    }
-
-
-    @SuppressWarnings("unchecked")
-    public int[] getValues(int scale, Object startValue, Object endValue) {
+    public static int[] getValues(int scale, Object startValue, Object endValue, TimeInterpolator interpolator) {
         int[] colors = new int[scale];
         float step = 1.0f / scale * 1.0f;
         int index = 0;
         for (float input = 0; input < 1; input += step) {
-            float fraction = mInterpolator.getInterpolation(input);
+            float fraction = interpolator.getInterpolation(input);
             if (index == scale - 1) { //handle the last one,cause the error float provided
-                colors[index] = (int) mEvaluator.evaluate(1, startValue, endValue);
+                colors[index] = (int) EVALUATOR.evaluate(1, startValue, endValue);
                 break;
             }
-            colors[index++] = (int) mEvaluator.evaluate(fraction, startValue, endValue);
+            colors[index++] = (int) EVALUATOR.evaluate(fraction, startValue, endValue);
         }
         return colors;
     }
 
 
-    public int[] getValues(int scale, Object... values) {
-        if(values.length == 1){
-            return new int[]{Color.RED};
+    @SuppressWarnings("unchecked")
+    public static int[] getValues(int scale, Object startValue, Object endValue) {
+        return getValues(scale, startValue, endValue, new LinearInterpolator());
+    }
+
+
+    public static int[] getValues(int scale, Object... values) {
+        if (values.length == 1) {
+            return new int[] { Color.RED };
         }
 
         int section = scale / (values.length - 1);

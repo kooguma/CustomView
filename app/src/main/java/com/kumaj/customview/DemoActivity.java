@@ -3,6 +3,8 @@ package com.kumaj.customview;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,6 +26,12 @@ public class DemoActivity extends AppCompatActivity implements ColorfulCircleInd
         mColorfulCircleIndicator = (ColorfulCircleIndicator) findViewById(R.id.dial_view);
         mColorfulCircleIndicator.setDialViewChangeListener(this);
         mColorfulCircleIndicator.setColors(Color.RED,Color.YELLOW,Color.BLUE,Color.GREEN);
+        ColorfulCircleIndicator.ColorBuilder builder = new ColorfulCircleIndicator.ColorBuilder();
+        builder.setColors(0.5f,Color.RED,Color.YELLOW,new AccelerateInterpolator());
+        builder.setColors(0.3f,Color.YELLOW,Color.BLUE,new DecelerateInterpolator());
+        builder.setColors(0.2f,Color.BLUE,Color.GREEN);
+        mColorfulCircleIndicator.setColors2(builder.create());
+
         SeekBar progressArcPaddingArc = (SeekBar) findViewById(R.id.progressArcPadding);
         progressArcPaddingArc.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override

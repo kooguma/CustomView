@@ -12,8 +12,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import android.view.animation.LinearInterpolator;
 import com.kumaj.customview.R;
 import com.kumaj.customview.evaluator.ArgbHelper;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ColorfulCircleIndicator extends View {
 
@@ -201,7 +204,8 @@ public class ColorfulCircleIndicator extends View {
     private void init(Context context, AttributeSet attrs, int defStyle) {
 
         if (attrs != null) {
-            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorfulCircleIndicator,
+            final TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.ColorfulCircleIndicator,
                 defStyle, 0);
             mArrow = a.getDrawable(R.styleable.ColorfulCircleIndicator_arrowSrc);
             if (mArrow == null) mArrow = getResources().getDrawable(R.drawable.ic_arrow);
@@ -216,25 +220,31 @@ public class ColorfulCircleIndicator extends View {
                 (R.styleable.ColorfulCircleIndicator_progressBackgroundWidth, sProgressBgArcWidth);
 
             mProgressBgArcColor = a.getColor
-                (R.styleable.ColorfulCircleIndicator_progressBackgroundColor, getResources().getColor(R.color.color_E7E7E7));
+                (R.styleable.ColorfulCircleIndicator_progressBackgroundColor,
+                    getResources().getColor(R.color.color_E7E7E7));
 
             mProgressFgArcColor = a.getInteger
-                (R.styleable.ColorfulCircleIndicator_progressForegroundColor,sForegroundDefaultColor);
+                (R.styleable.ColorfulCircleIndicator_progressForegroundColor,
+                    sForegroundDefaultColor);
 
             mProgressFgArcWidth = a.getDimensionPixelOffset
                 (R.styleable.ColorfulCircleIndicator_progressForegroundWidth, sProgressFgArcWidth);
 
             mProgressBgStartAngle = a.getInteger
-                (R.styleable.ColorfulCircleIndicator_progressBackgroundStartAngle, sProgressBgStartAngle);
+                (R.styleable.ColorfulCircleIndicator_progressBackgroundStartAngle,
+                    sProgressBgStartAngle);
 
             mProgressBgSweepAngle = a.getInteger
-                (R.styleable.ColorfulCircleIndicator_progressBackgroundSweepAngle, sProgressBgSweepAngle);
+                (R.styleable.ColorfulCircleIndicator_progressBackgroundSweepAngle,
+                    sProgressBgSweepAngle);
 
             mProgressFgStartAngle = a.getInteger
-                (R.styleable.ColorfulCircleIndicator_progressForegroundStartAngle, sProgressFgStartAngle);
+                (R.styleable.ColorfulCircleIndicator_progressForegroundStartAngle,
+                    sProgressFgStartAngle);
 
             mProgressFgSweepAngle = a.getInteger
-                (R.styleable.ColorfulCircleIndicator_progressForegroundSweepAngle, sProgressFgSweepAngle);
+                (R.styleable.ColorfulCircleIndicator_progressForegroundSweepAngle,
+                    sProgressFgSweepAngle);
 
             mOutermostCircleRadius = a.getInteger
                 (R.styleable.ColorfulCircleIndicator_outermostCircleRadius, sMinDiameter / 2);
@@ -259,7 +269,7 @@ public class ColorfulCircleIndicator extends View {
         mProgressFgArc = new Arc();
 
         //initial colors
-        colors = new int[]{mProgressFgArcColor};
+        colors = new int[] { mProgressFgArcColor };
 
         mDialPaint = new Paint();
         mDialPaint.setColor(Color.GRAY);
@@ -414,15 +424,65 @@ public class ColorfulCircleIndicator extends View {
         return colors;
     }
 
-    public void setColors(int color,TimeInterpolator interpolator){
 
-    }
-
-    public void setColors(Object... values){
-        ArgbHelper helper = ArgbHelper.getInstance();
-        colors = helper.getValues(sScale,values);
+    public void setColors2(Object[] p) {
+        colors = new int[p.length];
+        for(int i = 0 ; i < p.length ; i++){
+            colors[i] = (int) p[i];
+        }
         invalidate();
     }
+
+    public static class ColorBuilder {
+        List<ColorParams> params = new ArrayList<>();
+
+        public ColorBuilder setColors(float faction, int startColor, int endColor) {
+            return setColors(faction, startColor, endColor, new LinearInterpolator());
+        }
+
+        public ColorBuilder setColors(float faction, int startColor, int endColor, TimeInterpolator interpolator) {
+            ColorParams colorParams = new ColorParams(faction, startColor, endColor, interpolator);
+            params.add(colorParams);
+            return this;
+        }
+
+        public Object[] create() {
+            List<Integer> colors = new ArrayList<>();
+            for (ColorParams p :
+                params) {
+                int scale = (int) (sScale * p.faction);
+                int[] a = ArgbHelper.getValues(scale, p.startColor, p.endColor, p.interpolator);
+                for (Integer i :
+                    a) {
+                    colors.add(i);
+                }
+            }
+            return colors.toArray();
+        }
+
+    }
+
+
+    public static class ColorParams {
+        float faction;
+        int startColor;
+        int endColor;
+        TimeInterpolator interpolator;
+
+
+        public ColorParams(float faction, int startColor, int endColor, TimeInterpolator interpolator) {
+            this.faction = faction;
+            this.startColor = startColor;
+            this.endColor = endColor;
+            this.interpolator = interpolator;
+        }
+    }
+
+    public void setColors(Object... values) {
+        colors = ArgbHelper.getValues(sScale, values);
+        invalidate();
+    }
+
 
     public void setProgressArcPadding(int progressArcPadding) {
         this.mProgressArcPadding = progressArcPadding;
