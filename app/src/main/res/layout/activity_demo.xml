@@ -30,8 +30,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:arrowSrc="@drawable/ic_arrow"
-                app:arrowRotate="180"
-                app:isDrawDial="false" />
+                app:arrowRotate="180"/>
         </FrameLayout>
 
         <include layout="@layout/view_controller" />

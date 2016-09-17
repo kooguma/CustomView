@@ -13,8 +13,6 @@
         <attr name="progressForegroundSweepAngle" format="integer"/>
         <attr name="progressArcPadding" format="dimension"/>
         <attr name="outermostCircleRadius" format="dimension"/>
-        <attr name="showDial" format="boolean"/>
-        <attr name="isDrawDial" format="boolean"/>
     </declare-styleable>
 
 </resources>

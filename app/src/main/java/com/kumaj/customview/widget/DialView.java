@@ -79,9 +79,6 @@ public class DialView extends View {
     private float mArrowRotate;
     private float mArrowRadius;
 
-    //dial
-    private boolean isDrawDial;
-
     //
     private float mPercentage;
 
@@ -202,23 +199,6 @@ public class DialView extends View {
             canvas.drawArc(mOutCircle.getRectF(), curDegree, sweepAngle, false, mPgFgPaint);
         }
 
-        //draw the scale
-        if (isDrawDial) {
-            // TODO: 16/7/26 the dial num should be custom
-            canvas.save();
-            float startDegree = 90 + mProgressFgArc.mStartAngle;
-            canvas.rotate(startDegree, mOutCircle.x, mOutCircle.y);
-            float startY = mOutCircle.y - mOutCircle.mRadius +
-                mProgressArcPadding + mProgressBgArc.mPaint.getStrokeWidth() / 2 + sDialPadding;
-            float stopY = startY + sDialLength;
-            float rotateDegree = (1.0f * mProgressFgArc.mSweepAngle) / (1.0f * mDialNums);
-            for (int i = 0; i < mDialNums + 1; i++) {
-                canvas.drawLine(mOutCircle.x, startY, mOutCircle.x, stopY, mDialPaint);
-                canvas.rotate(rotateDegree, mOutCircle.x, mOutCircle.y);
-            }
-            canvas.restore();
-        }
-
         //draw arrow
 
         canvas.save();
@@ -271,7 +251,6 @@ public class DialView extends View {
             mOutermostCircleRadius = a.getInteger
                 (R.styleable.DialView_outermostCircleRadius, sMinDiameter / 2);
 
-            isDrawDial = a.getBoolean(R.styleable.DialView_isDrawDial, true);
             a.recycle();
         }
 
