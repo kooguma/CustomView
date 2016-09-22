@@ -1,4 +1,4 @@
-package com.kumaj.customview;
+package com.kumaj.customview.widget.ColorfulCircleIndicator;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,8 +8,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kumaj.customview.widget.ColorfulCircleIndicator;
-import com.kumaj.customview.widget.SimpleOnSeekBarChangeListener;
+import com.kumaj.customview.R;
 
 public class DemoActivity extends AppCompatActivity implements ColorfulCircleIndicator.OnDialViewChangeListener{
 
@@ -21,7 +20,7 @@ public class DemoActivity extends AppCompatActivity implements ColorfulCircleInd
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo);
+        setContentView(R.layout.activity_colorful_circle_indicator_demo);
         mTextProgress = (TextView) findViewById(R.id.text_progress);
         mColorfulCircleIndicator = (ColorfulCircleIndicator) findViewById(R.id.dial_view);
         mColorfulCircleIndicator.setDialViewChangeListener(this);

@@ -15,4 +15,12 @@
         <attr name="outermostCircleRadius" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="OctoCatProgress">
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="color" format="color"/>
+        <attr name="colos" format="reference"/>
+        <attr name="section" format="integer"/>
+        <attr name="intervalAngle" format="float"/>
+        <attr name="style" format="reference"/>
+    </declare-styleable>
 </resources>

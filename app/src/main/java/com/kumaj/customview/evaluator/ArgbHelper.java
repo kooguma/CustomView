@@ -5,9 +5,6 @@ import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.graphics.Color;
 import android.view.animation.LinearInterpolator;
-import com.kumaj.customview.widget.ColorfulCircleIndicator;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class ArgbHelper {
 

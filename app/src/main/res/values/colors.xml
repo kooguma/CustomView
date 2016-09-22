@@ -6,4 +6,6 @@
 
     <color name="color_E7E7E7">#E7E7E7</color>
 
+    <!--OctoCatProgress-->
+    <color name="color_default">#33b5e5</color>
 </resources>

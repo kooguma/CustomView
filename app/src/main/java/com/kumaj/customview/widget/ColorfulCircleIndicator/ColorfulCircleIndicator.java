@@ -1,4 +1,4 @@
-package com.kumaj.customview.widget;
+package com.kumaj.customview.widget.ColorfulCircleIndicator;
 
 import android.animation.TimeInterpolator;
 import android.content.Context;
