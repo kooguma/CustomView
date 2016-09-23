@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <com.kumaj.customview.widget.OctoCatProgress.OctoCatProgress
-        android:layout_width="128dp"
-        android:layout_height="128dp"/>
+    <com.kumaj.customview.widget.OctoCatView.OctoCatView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:colos="@array/pocket_background_colors"
+        android:id="@+id/octoCatView"/>
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_gravity="center"
-        android:layout_width="128dp"
-        android:layout_height="128dp"/>
 </LinearLayout>

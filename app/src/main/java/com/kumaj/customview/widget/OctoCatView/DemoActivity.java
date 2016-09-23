@@ -1,4 +1,4 @@
-package com.kumaj.customview.widget.OctoCatProgress;
+package com.kumaj.customview.widget.OctoCatView;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +11,5 @@ public class DemoActivity extends AppCompatActivity {
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_octo_cat_dialog_demo);
-        ImageView imageView = (ImageView) findViewById(R.id.image_view);
-        imageView.setBackgroundDrawable(new OctoCatDrawable.Builder(this).build());
     }
 }
