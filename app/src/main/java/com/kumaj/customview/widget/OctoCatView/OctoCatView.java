@@ -85,13 +85,13 @@ public class OctoCatView extends ImageView {
     }
 
 
-    private void startAnimation() {
+    public void startAnimation() {
         if (mOctoCatDrawable != null) {
             mOctoCatDrawable.start();
         }
     }
 
-    private void stopAnimation(){
+    public void stopAnimation(){
         if (mOctoCatDrawable != null){
             mOctoCatDrawable.stop();
         }

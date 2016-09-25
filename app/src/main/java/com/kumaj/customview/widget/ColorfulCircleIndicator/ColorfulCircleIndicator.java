@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
 import android.view.animation.LinearInterpolator;
 import com.kumaj.customview.R;
 import com.kumaj.customview.evaluator.ArgbHelper;

@@ -3,14 +3,11 @@ package com.kumaj.customview.widget.OctoCatView;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
@@ -19,11 +16,9 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import com.kumaj.customview.R;
-import com.kumaj.customview.utils.DensityUtil;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -31,7 +26,6 @@ public class OctoCatDrawable extends Drawable implements Animatable {
 
     private final String TAG = getClass().getSimpleName();
     private Paint mPaint;
-    private Bitmap mBitmap;
     private Params mParams;
     private final RectF mBounds = new RectF();
     private final RectF mTempBounds = new RectF();
@@ -40,6 +34,8 @@ public class OctoCatDrawable extends Drawable implements Animatable {
     public static final int STYLE_ROUNDED = 1;
 
     private ValueAnimator mRotationAnimator;
+    private ValueAnimator mSpreadAnimator;
+
     private float mRotationAngle = 0f;
     private float mSweepAngle;
     private int mColorIndex = 0;
@@ -67,14 +63,20 @@ public class OctoCatDrawable extends Drawable implements Animatable {
 
 
     private void setupAnimation() {
+        mSpreadAnimator = ValueAnimator.ofFloat(0.0f,1.0f);
+        mSpreadAnimator.setInterpolator(new AccelerateInterpolator());
+        mSpreadAnimator.setDuration(1000);
+        mSpreadAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator animation) {
+                mScale = animation.getAnimatedFraction();
+            }
+        });
+
         mRotationAnimator = ValueAnimator.ofFloat(0f, 360f);
-        mRotationAnimator.setInterpolator(new AccelerateInterpolator());
+        mRotationAnimator.setInterpolator(new LinearInterpolator());
         mRotationAnimator.setDuration(2000);
         mRotationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override public void onAnimationUpdate(ValueAnimator animation) {
-                mScale = animation.getAnimatedFraction();
-                //// TODO: 16/9/23  change the state
-                changeState();
                 float rotateAngle = animation.getAnimatedFraction() * 360f;
                 setRotationAngle(rotateAngle);
             }
@@ -107,6 +109,7 @@ public class OctoCatDrawable extends Drawable implements Animatable {
             }
         });
 
+
     }
 
     private void changeState() {}
@@ -115,7 +118,7 @@ public class OctoCatDrawable extends Drawable implements Animatable {
         mTempBounds.set(getDrawableBounds());
         mTempBounds.inset(mParams.strokeWidth, mParams.strokeWidth);
         mTempBounds.inset((1 - mScale) * mTempBounds.width(), (1 - mScale) * mTempBounds.height());
-
+        Log.e(TAG,"scale = " + mScale);
         float px = getDrawableBounds().centerX();
         float py = getDrawableBounds().centerY();
         int scale = 2;
@@ -168,16 +171,14 @@ public class OctoCatDrawable extends Drawable implements Animatable {
 
 
     @Override public void start() {
-        if (mRotationAnimator != null) {
-            mRotationAnimator.start();
-        }
+        mSpreadAnimator.start();
+        mRotationAnimator.start();
     }
 
 
     @Override public void stop() {
-        if (mRotationAnimator != null) {
-            mRotationAnimator.cancel();
-        }
+        mSpreadAnimator.cancel();
+        mRotationAnimator.cancel();
     }
 
 
@@ -195,7 +196,6 @@ public class OctoCatDrawable extends Drawable implements Animatable {
     private void setDrawableColor(int color) {
         Drawable drawable = DrawableCompat.wrap(mParams.drawable);
         DrawableCompat.setTint(drawable, color);
-        //invalidateSelf();
     }
 
 
