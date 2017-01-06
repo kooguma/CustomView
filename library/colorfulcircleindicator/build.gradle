@@ -1,12 +1,10 @@
-apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion configs.compileSdkVersion
     buildToolsVersion configs.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.kumaj.customview"
         minSdkVersion configs.minSdkVersion
         targetSdkVersion configs.targetSdkVersion
         versionCode configs.versionCode
@@ -18,24 +16,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.appcompatV7
-    compile deps.design
-
-    //library
-    compile project(':library:colorfulcircleindicator')
-    compile project(':library:octocatview')
 
 }

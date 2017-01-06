@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="OctoCatView">
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="color" format="color"/>
+        <attr name="colos" format="reference"/>
+        <attr name="section" format="integer"/>
+        <attr name="intervalAngle" format="float"/>
+        <attr name="style" format="reference"/>
+    </declare-styleable>
+</resources>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="octo_cat_default_section">3</integer>
-    <integer name="octo_cat_default_interval_angle">30</integer>
+
 </resources>

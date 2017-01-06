@@ -4,21 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="text_color_primary">#353535</color>
     <color name="color_E7E7E7">#E7E7E7</color>
-
-    <!--OctoCatProgress-->
-    <color name="color_default">#33b5e5</color>
-
-    <integer-array name="pocket_background_colors">
-        <item>@color/pocket_color_1</item>
-        <item>@color/pocket_color_2</item>
-        <item>@color/pocket_color_3</item>
-        <item>@color/pocket_color_4</item>
-    </integer-array>
-
-    <color name="pocket_color_1">#85edb9</color>
-    <color name="pocket_color_2">#34bdb7</color>
-    <color name="pocket_color_3">#ee4458</color>
-    <color name="pocket_color_4">#fcb74d</color>
 
 </resources>

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">CustomView</string>
+    <string name="label_colorful_Circle_indicator">ColorfulCircleIndicator</string>
+    <string name="label_octocat_view">OctoCatView</string>
     <string name="dial_view_percentage">%s%%</string>
 </resources>

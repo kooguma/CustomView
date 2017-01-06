@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <com.kumaj.customview.widget.OctoCatView.OctoCatView
+    <com.kumaj.octocatview.OctoCatView
         android:id="@+id/octoCatView"
         android:layout_width="64dp"
         android:layout_height="64dp"
