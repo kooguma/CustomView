@@ -36,6 +36,7 @@ dependencies {
 
     //library
     compile project(':library:colorfulcircleindicator')
-    compile project(':library:octocatview')
+    compile project(':library:loading-drawable')
+    compile project(':library:followbox')
 
 }

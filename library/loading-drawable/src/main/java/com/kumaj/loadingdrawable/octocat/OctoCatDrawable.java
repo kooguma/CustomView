@@ -1,4 +1,4 @@
-package com.kumaj.octocatview;
+package com.kumaj.loadingdrawable.octocat;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -18,6 +18,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import com.kumaj.loadingdrawable.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

@@ -34,8 +34,8 @@
         </activity>
 
         <activity
-            android:name=".sample.OctoCatViewActivity"
-            android:label="@string/label_octocat_view">
+            android:name=".sample.LoadingDrawableActivity"
+            android:label="@string/label_loading_drawable">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>

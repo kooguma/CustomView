@@ -1,4 +1,4 @@
-package com.kumaj.octocatview;
+package com.kumaj.loadingdrawable.octocat;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import com.kumaj.loadingdrawable.R;
 
 public class OctoCatView extends ImageView {
 

@@ -220,9 +220,9 @@ public class ColorfulCircleIndicator extends View {
                 (R.styleable.ColorfulCircleIndicator_progressBackgroundColor,
                     getResources().getColor(R.color.color_E7E7E7));
 
-            mProgressFgArcColor = a.getInteger
+            mProgressFgArcColor = a.getColor
                 (R.styleable.ColorfulCircleIndicator_progressForegroundColor,
-                    sForegroundDefaultColor);
+                    getResources().getColor(android.R.color.holo_red_light));
 
             mProgressFgArcWidth = a.getDimensionPixelOffset
                 (R.styleable.ColorfulCircleIndicator_progressForegroundWidth, sProgressFgArcWidth);

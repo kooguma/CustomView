@@ -19,4 +19,11 @@
     <color name="pocket_color_2">#34bdb7</color>
     <color name="pocket_color_3">#ee4458</color>
     <color name="pocket_color_4">#fcb74d</color>
+
+    <color name="export_loading_foreground_progress_color">#61d898</color>
+    <color name="export_loading_background_progress_color">#F2EFEF</color>
+    <dimen name="export_loading_stroke_width">3dp</dimen>
+    <dimen name="export_loading_indicator_radius">4dp</dimen>
+    <dimen name="export_loading_progress_sweep_angle">0dp</dimen>
+
 </resources>

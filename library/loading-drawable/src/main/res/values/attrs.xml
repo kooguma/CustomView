@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="strokeWidth"
+        format="dimension"/>
+    <attr name="progressForegroundColor"
+        format="color"/>
+    <attr name="progressBackgroundColor"
+        format="color"/>
+
+    <declare-styleable name="OctoCatView">
+        <attr name="strokeWidth"/>
+        <attr name="color"
+            format="color"/>
+        <attr name="colos"
+            format="reference"/>
+        <attr name="section"
+            format="integer"/>
+        <attr name="intervalAngle"
+            format="float"/>
+        <attr name="style"
+            format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ExportLoadingView">
+        <attr name="strokeWidth"/>
+        <attr name="progressForegroundColor"/>
+        <attr name="progressBackgroundColor"/>
+        <attr name="indicatorRadius"
+            format="dimension"/>
+        <attr name="progressSweepAngle"
+            format="dimension"/>
+    </declare-styleable>
+
+</resources>

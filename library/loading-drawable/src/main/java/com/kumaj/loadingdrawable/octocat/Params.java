@@ -1,4 +1,4 @@
-package com.kumaj.octocatview;
+package com.kumaj.loadingdrawable.octocat;
 
 import android.graphics.drawable.Drawable;
 
