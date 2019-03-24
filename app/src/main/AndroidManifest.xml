@@ -14,6 +14,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
@@ -36,6 +37,32 @@
         <activity
             android:name=".sample.LoadingDrawableActivity"
             android:label="@string/label_loading_drawable">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN"/>
+
+                <category android:name="com.kumaj.customview.sample.SAMPLE"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".sample.ToningIndicatorActivity"
+            android:label="@string/label_toning_indicator">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+
+            <intent-filter>
+                <action android:name="android.intent.action.RUN"/>
+
+                <category android:name="com.kumaj.customview.sample.SAMPLE"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".sample.MusicClipViewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>

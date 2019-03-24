@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion configs.compileSdkVersion
@@ -30,13 +29,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.appcompatV7
-    compile deps.design
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.appcompatV7
+    implementation deps.design
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     //library
-    compile project(':library:colorfulcircleindicator')
-    compile project(':library:loading-drawable')
-    compile project(':library:followbox')
+    implementation project(':library:colorfulcircleindicator')
+    implementation project(':library:loading-drawable')
+    implementation project(':library:followbox')
+    implementation project(':library:toningindicator')
+    implementation project(':library:musicclipview')
+
 
 }

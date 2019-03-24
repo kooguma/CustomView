@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_color_tertiary">#999999</color>
+    <color name="music_clip_progress_color">#61d898</color>
+    <color name="music_clip_progress_selected_color">#DBDBDB</color>
+    <color name="music_clip_progress_dot_color">#ffffff</color>
+</resources>

@@ -163,8 +163,12 @@ public class ColorfulCircleIndicator extends View {
         mProgressBgArc.mPaint = mPgBgPaint;
         mProgressBgArc.setStartAngle(mProgressBgStartAngle);
         mProgressBgArc.setSweepAngle(mProgressBgSweepAngle);
-        canvas.drawArc(mOutCircle.getRectF(), mProgressBgArc.mStartAngle,
-            mProgressBgArc.mSweepAngle, false, mProgressBgArc.mPaint);
+        canvas.drawArc(
+            mOutCircle.getRectF(),
+            mProgressBgArc.mStartAngle,
+            mProgressBgArc.mSweepAngle,
+            false,
+            mProgressBgArc.mPaint);
 
         //draw the foreground arc
         mPgFgPaint.setStrokeWidth(mProgressFgArcWidth);

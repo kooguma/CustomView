@@ -5,4 +5,5 @@
     <string name="label_loading_drawable">LoadingDrawable</string>
 
     <string name="dial_view_percentage">%s%%</string>
+    <string name="label_toning_indicator">ToningIndicator</string>
 </resources>

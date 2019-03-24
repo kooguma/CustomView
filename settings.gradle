@@ -1,4 +1,6 @@
 include ':app',
         ':library:colorfulcircleindicator',
         ':library:loading-drawable',
-        ':library:followbox'
+        ':library:followbox',
+        ':library:toningindicator',
+        ':library:musicclipview'

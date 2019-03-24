@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MusicClipView">
+        <attr name="progressbarColor"
+            format="color"/>
+        <attr name="progressbarSelectedColor"
+            format="color"/>
+        <attr name="dotColor"
+            format="color"/>
+        <attr name="progressMax"
+            format="integer"/>
+        <attr name="roundCorner"
+            format="boolean"/>
+    </declare-styleable>
+</resources>
