@@ -16,6 +16,7 @@
 ## 3.MusciClipView
 一个音乐裁剪指示器，用来设置所要裁剪音乐的起始位置、终止位置，以及显示音乐播放的当前位置
 ## 4.ToningIndicator
-一个调音器，用来显示当前乐器的频率
+一个调音器，用来显示当前乐器的频率  
+![](/gif/ToningIndicator.gif) 
 ## 5.BottomPhotoPickerView
 一个组合 View 用来读取并显示手机相册
