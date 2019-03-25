@@ -15,7 +15,8 @@
 一个彩色章鱼猫加载动画  
 ![](/gif/Otocat.gif) 
 ## 3.MusciClipView
-一个音乐裁剪指示器，用来设置所要裁剪音乐的起始位置、终止位置，以及显示音乐播放的当前位置
+一个音乐裁剪指示器，用来设置所要裁剪音乐的起始位置、终止位置，以及显示音乐播放的当前位置  
+![](/gif/MusicClipView.gif) 
 ## 4.ToningIndicator
 一个调音器，用来显示当前乐器的频率  
 ![](/gif/ToningIndicator.gif) 
