@@ -48,6 +48,7 @@ public class ExportLoadingView extends AppCompatImageView {
             .setStrokeWidth(strokeWidth)
             .setIndicatorRadius(indicatorRadius)
             .setSweepAngle(sweepAngle)
+            .setIsRepeated(true)
             .build();
         a.recycle();
 

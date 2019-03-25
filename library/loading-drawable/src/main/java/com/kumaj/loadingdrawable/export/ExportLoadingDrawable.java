@@ -36,7 +36,9 @@ public class ExportLoadingDrawable extends Drawable implements Animatable {
         //sweep angle
         mValueAnimator = ValueAnimator.ofFloat(0f, 360f);
         mValueAnimator.setInterpolator(mParams.mInterpolator);
-        mValueAnimator.setDuration(5000);
+        mValueAnimator.setDuration(3000);
+        mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override public void onAnimationUpdate(ValueAnimator animation) {
                 mParams.mSweepAngle = (float) animation.getAnimatedValue();
@@ -63,7 +65,7 @@ public class ExportLoadingDrawable extends Drawable implements Animatable {
         return mParams.mSweepAngle / sDefaultTotalAngle;
     }
 
-    public float getProgress(){
+    public float getProgress() {
         return mParams.mSweepAngle;
     }
 
@@ -121,6 +123,7 @@ public class ExportLoadingDrawable extends Drawable implements Animatable {
         private int mBackgroundColor;
         private float mIndicatorRadius;
         private float mSweepAngle;
+        private boolean mIsRepeated;
         private Interpolator mInterpolator;
 
         public Builder() {
@@ -158,6 +161,11 @@ public class ExportLoadingDrawable extends Drawable implements Animatable {
             return this;
         }
 
+        public Builder setIsRepeated(boolean isRepeated) {
+            mIsRepeated = isRepeated;
+            return this;
+        }
+
         private void apply() {
             mPaint.setAntiAlias(true);
             mPaint.setStyle(Paint.Style.STROKE);
@@ -174,6 +182,7 @@ public class ExportLoadingDrawable extends Drawable implements Animatable {
                     mStrokeWidth,
                     mIndicatorRadius,
                     mSweepAngle,
+                    mIsRepeated,
                     mInterpolator));
         }
     }
@@ -185,21 +194,24 @@ public class ExportLoadingDrawable extends Drawable implements Animatable {
         float mStrokeWidth;
         float mIndicatorRadius;
         float mSweepAngle;
+        boolean mIsRepeated;
         Interpolator mInterpolator;
 
-        public Params(Paint mPaint,
-                      int mForegroundColor,
-                      int mBackgroundColor,
-                      float mStrokeWidth,
-                      float mIndicatorRadius,
-                      float mSweepAngle,
-                      Interpolator mInterpolator) {
-            this.mPaint = mPaint;
-            this.mForegroundColor = mForegroundColor;
-            this.mBackgroundColor = mBackgroundColor;
-            this.mStrokeWidth = mStrokeWidth;
-            this.mIndicatorRadius = mIndicatorRadius;
-            this.mInterpolator = mInterpolator;
+        public Params(Paint paint,
+                      int foregroundColor,
+                      int backgroundColor,
+                      float strokeWidth,
+                      float indicatorRadius,
+                      float sweepAngle,
+                      boolean isRepeated,
+                      Interpolator interpolator) {
+            this.mPaint = paint;
+            this.mForegroundColor = foregroundColor;
+            this.mBackgroundColor = backgroundColor;
+            this.mStrokeWidth = strokeWidth;
+            this.mIndicatorRadius = indicatorRadius;
+            this.mIsRepeated = isRepeated;
+            this.mInterpolator = interpolator;
         }
     }
 }
