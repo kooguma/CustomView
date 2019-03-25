@@ -6,4 +6,5 @@
 
     <string name="dial_view_percentage">%s%%</string>
     <string name="label_toning_indicator">ToningIndicator</string>
+    <string name="label_music_clip_view">MusicClipView</string>
 </resources>

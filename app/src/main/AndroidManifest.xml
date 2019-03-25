@@ -62,7 +62,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".sample.MusicClipViewActivity">
+        <activity android:name=".sample.MusicClipViewActivity"
+            android:label="@string/label_music_clip_view">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
