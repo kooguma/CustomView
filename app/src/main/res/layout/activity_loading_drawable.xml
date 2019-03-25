@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center|top">
 
-    <com.kumaj.loadingdrawable.octocat.OctoCatView
-        android:id="@+id/octo_cat_view"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        app:colos="@array/pocket_background_colors"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <com.kumaj.loadingdrawable.export.ExportLoadingView
-        android:id="@+id/export_loading_view"
-        android:layout_width="64dp"
-        android:layout_height="64dp"/>
+        <com.kumaj.loadingdrawable.octocat.OctoCatView
+            android:id="@+id/octo_cat_view"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            app:colos="@array/pocket_background_colors"/>
+    </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.kumaj.loadingdrawable.export.ExportLoadingView
+            android:id="@+id/export_loading_view"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.kumaj.loadingdrawable.musicbar.MusicBarImageView
+            android:id="@+id/music_bar_image_view"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 </LinearLayout>

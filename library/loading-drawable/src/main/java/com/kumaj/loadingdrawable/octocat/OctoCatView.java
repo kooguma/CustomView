@@ -3,12 +3,12 @@ package com.kumaj.loadingdrawable.octocat;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import com.kumaj.loadingdrawable.R;
 
-public class OctoCatView extends ImageView {
+public class OctoCatView extends AppCompatImageView {
 
     private OctoCatDrawable mOctoCatDrawable;
 

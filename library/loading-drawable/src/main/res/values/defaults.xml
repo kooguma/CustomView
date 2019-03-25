@@ -26,4 +26,8 @@
     <dimen name="export_loading_indicator_radius">4dp</dimen>
     <dimen name="export_loading_progress_sweep_angle">0dp</dimen>
 
+    <color name="music_bar_color">#61d898</color>
+    <integer name="music_bar_count">4</integer>
+    <string name="music_bar_ratio">2.0</string>
+
 </resources>

@@ -31,4 +31,10 @@
             format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="MusicBarImageView">
+        <attr name="barColor" format="color"/>
+        <attr name="barCount" format="integer"/>
+        <attr name="ratio" format="float"/>
+    </declare-styleable>
+    
 </resources>
