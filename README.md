@@ -1,7 +1,7 @@
 # CustomViews
 个人自定义 View 作品集合
 ## 1.ColorfulCircleIndicator
-一个颜色选择器，
+一个颜色选择器，拥有高度的可定制性
 ## 2.LoadingDrawable
 各种 Drawable 集合
 ### 2.1 ExportLoadingDrawable
