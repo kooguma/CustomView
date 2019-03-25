@@ -18,5 +18,3 @@
 ## 4.ToningIndicator
 一个调音器，用来显示当前乐器的频率  
 ![](/gif/ToningIndicator.gif) 
-## 5.BottomPhotoPickerView
-一个组合 View 用来读取并显示手机相册
