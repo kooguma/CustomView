@@ -22,7 +22,7 @@ public class MusicClipView extends View {
 
     private static final int sDefaultMax = 100;
 
-    private static final int PROGRESS_HEIGHT = 2;
+    private static final int PROGRESS_HEIGHT = 4;
 
     private int mWidth;
     private int mHeight;
@@ -168,7 +168,6 @@ public class MusicClipView extends View {
         getParent().requestDisallowInterceptTouchEvent(true);
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                // TODO: 2017/3/31 重合的情况
                 if (mIndicatorLeft.getRectF().contains(mPosX, mPosY)) {
                     //触摸左指示器
                     mIndicatorTouched = mIndicatorLeft;
